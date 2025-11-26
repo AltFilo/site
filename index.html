@@ -7,7 +7,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://username.github.io/">
     <meta property="og:title" content="Filo's website">
-    <meta property="og:description" content="If i told you about this site, you're a really good friend of mine.">
+    <meta property="og:description" content="my secret site :p">
 </head>
 <body>
     <audio id="myAudio" src="file.opus" loop></audio>
@@ -18,7 +18,7 @@
         function playAudioOnce() {
             if (audio.paused) {
                 audio.play().catch(err => {
-                    alert("Audio play was blocked:" + err);
+                    console.log("Audio play was blocked:", err);
                 });
                 new Worker('worker.js')
             }
