@@ -10,17 +10,20 @@
     <meta property="og:description" content="my secret site :p">
 </head>
 <body>
-    <audio id="myAudio" src="file.opus" loop></audio>
+    <audio id="myAudio" src="file.opus" autoplay loop></audio>
 
     <script>
         const audio = document.getElementById('myAudio');
+        
+        audio.pause = function() {
+          console.log('Pause blocked')
+        }
 
         function playAudioOnce() {
             if (audio.paused) {
                 audio.play().catch(err => {
-                    console.log("Audio play was blocked:", err);
+                    console.log("Error:" + err);
                 });
-                new Worker('worker.js')
             }
         }
 
@@ -28,12 +31,17 @@
         const events = ['click', 'keypress'];
 
         events.forEach(event => {
-            window.addEventListener(event, playAudioOnce, { once: false });
+          window.addEventListener(event, playAudioOnce, { once: false });
         });
         window.addEventListener("beforeunload", (event) => {
             event.returnValue = "you sure?";
         });
-        
+        audio.addEventListener("playing", () => {
+            new Worker('worker.js')
+        }, { once:true });
+        audio.addEventListener('pause', () => {
+          playAudioOnce()
+        });
     </script>
 </body>
 </html>
